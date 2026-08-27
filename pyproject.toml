@@ -6,9 +6,9 @@ build-backend = "setuptools.build_meta"
 name = "mapanything"
 version = "1.1.4"
 description = "Universal Feed-Forward Metric 3D Reconstruction"
-readme = "readme.md"
+readme = "README.md"
 authors = [{ name = "Nikhil Keetha", email = "keethanikhil@gmail.com" }]
-requires-python = ">=3.10.0"
+requires-python = ">=3.12,<3.13"
 dependencies = [
     "huggingface_hub",
     "hydra-core",
@@ -19,9 +19,11 @@ dependencies = [
     "plyfile",
     "python-box",
     "requests",
-    "rerun-sdk~=0.24.1",
+    "rerun-sdk~=0.22.1",
     "safetensors",
     "tensorboard",
+    "torch",
+    "torchvision",
     "tqdm",
     "trimesh",
     "uniception==0.1.7",
@@ -77,6 +79,9 @@ packages = ["mapanything"]
 # Include package data
 [tool.setuptools.package-data]
 "mapanything" = ["**/*"]
+
+[tool.uv]
+environments = ["sys_platform == 'linux' and platform_machine == 'x86_64'"]
 
 # Ruff for linting
 [tool.ruff]

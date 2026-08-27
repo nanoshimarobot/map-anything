@@ -109,23 +109,18 @@ The framework provides the **complete stack**—data processing, training, infer
 git clone https://github.com/facebookresearch/map-anything.git
 cd map-anything
 
-# Create and activate conda environment
-conda create -n mapanything python=3.12 -y
-conda activate mapanything
-
-# Optional: Install torch, torchvision & torchaudio specific to your system
-# Install MapAnything
-pip install -e .
+# Create the Python 3.12 environment and install MapAnything
+uv sync
 
 # For all optional dependencies
 # This includes external model support (VGGT, VGGT-Omega, DUSt3R, MASt3R, MUSt3R, Pi3-X, DA3, etc.)
 # See "Running External Models" section for more details
 # See pyproject.toml for more details on installed packages
-pip install -e ".[all]"
-pre-commit install
+uv sync --extra all
+uv run pre-commit install
 ```
 
-Note that we don't pin a specific version of PyTorch or CUDA in our requirements. Please feel free to install PyTorch based on your specific system.
+The uv environment uses the PyTorch wheel appropriate for the current platform.
 
 ### Image-Only Inference
 
@@ -422,17 +417,17 @@ Install optional dependencies for external models:
 
 ```bash
 # Install specific external model dependencies
-pip install -e ".[dust3r]"           # DUSt3R
-pip install -e ".[mast3r]"           # MASt3R
-pip install -e ".[pi3]"              # π³-X (note: π³ base works without this)
-pip install -e ".[pow3r]"            # Pow3R
-pip install -e ".[anycalib]"         # AnyCalib
-pip install -e ".[must3r]"           # MUSt3R
-pip install -e ".[vggt-omega]"       # VGGT-Omega
-pip install -e ".[depth-anything-3]" # Depth Anything 3
+uv sync --extra dust3r           # DUSt3R
+uv sync --extra mast3r           # MASt3R
+uv sync --extra pi3              # π³-X (note: π³ base works without this)
+uv sync --extra pow3r            # Pow3R
+uv sync --extra anycalib         # AnyCalib
+uv sync --extra must3r           # MUSt3R
+uv sync --extra vggt-omega       # VGGT-Omega
+uv sync --extra depth-anything-3 # Depth Anything 3
 
 # Or install all external model dependencies
-pip install -e ".[all]"
+uv sync --extra all
 ```
 
 #### Quick Start Example {#external-model-quick-start}
@@ -551,10 +546,10 @@ We provide a script to launch our Gradio app. The interface and GUI mirrors our 
 
 ```bash
 # Install requirements for the app
-pip install -e ".[gradio]"
+uv sync --extra gradio
 
 # Launch app locally
-python scripts/gradio_app.py
+uv run python scripts/gradio_app.py
 ```
 
 <details>
@@ -705,10 +700,10 @@ MapAnything's predictions can directly be converted to COLMAP format by using:
 
 ```bash
 # Install requirements for this specific demo
-pip install -e ".[colmap]"
+uv sync --extra colmap
 
 # Export MapAnything predictions to COLMAP format
-python scripts/demo_colmap.py --images_dir=/YOUR/IMAGES_DIR/ --output_dir=/YOUR/OUTPUT_DIR/
+uv run python scripts/demo_colmap.py --images_dir=/YOUR/IMAGES_DIR/ --output_dir=/YOUR/OUTPUT_DIR/
 
 # With custom voxel fraction (default: 0.01 = 1% of IQR-based scene extent)
 python scripts/demo_colmap.py --images_dir=/YOUR/IMAGES_DIR/ --output_dir=/YOUR/OUTPUT_DIR/ --voxel_fraction=0.002
